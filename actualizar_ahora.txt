@@ -1,0 +1,24 @@
+PBB Corretajes V14.4 — sitio Firebase correcto
+
+El proyecto Firebase es: pbbcorretajes
+El sitio de Firebase Hosting vinculado a la app web es: pbbcorretajes-cl
+El target de despliegue usado por este paquete es: pbbweb
+
+PUBLICAR DESDE CLOUD SHELL
+
+1) Descomprime el ZIP.
+2) Entra a la carpeta.
+3) Ejecuta:
+
+bash PUBLICAR_CLOUD_SHELL.sh
+
+Si quieres desplegar directamente sin vista previa:
+
+firebase target:apply hosting pbbweb pbbcorretajes-cl --project pbbcorretajes
+firebase deploy --project pbbcorretajes --only hosting:pbbweb,firestore
+
+La URL técnica correcta del Hosting es:
+https://pbbcorretajes-cl.web.app
+
+Después puedes conectar el dominio:
+https://pbbcorretajes.cl

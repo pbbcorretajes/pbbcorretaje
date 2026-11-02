@@ -1,0 +1,13 @@
+PBB CORRETAJES V14.3 — CLOUD SHELL
+
+1. Suba el ZIP a Cloud Shell.
+2. Ejecute:
+
+unzip -o PBB_CORRETAJES_FIREBASE_V14_3_HOSTING_FIX.zip
+cd PBB_CORRETAJES_FIREBASE_V14_3_HOSTING_FIX
+bash PUBLICAR_CLOUD_SHELL.sh pbbcorretajes
+
+Esta versión verifica si el proyecto tiene un sitio Firebase Hosting por defecto.
+Si no existe, lo crea antes de intentar el canal de prueba.
+
+Si el ID pbbcorretajes ya estuviera ocupado como Site ID global, intenta pbbcorretajes-web.

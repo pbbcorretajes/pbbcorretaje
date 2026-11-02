@@ -1,0 +1,25 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "properties",
+      "fieldPath": "cover",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "images",
+      "fieldPath": "dataUrl",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "crm",
+      "fieldPath": "data",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "backups",
+      "fieldPath": "properties",
+      "indexes": []
+    }
+  ]
+}

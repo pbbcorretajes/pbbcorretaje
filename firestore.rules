@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'paulina.barriga@unne.cl';
+    }
+
+    function shortString(value, maxSize) {
+      return value is string && value.size() <= maxSize;
+    }
+
+    function validCrmData(data) {
+      return data is map
+        && (!('nombre' in data) || shortString(data.nombre, 120))
+        && (!('email' in data) || shortString(data.email, 180))
+        && (!('telefono' in data) || shortString(data.telefono, 80))
+        && (!('contacto' in data) || shortString(data.contacto, 180))
+        && (!('consulta' in data) || shortString(data.consulta, 180))
+        && (!('mensaje' in data) || shortString(data.mensaje, 4000))
+        && (!('conversacion' in data) || shortString(data.conversacion, 7000))
+        && (!('propiedad' in data) || shortString(data.propiedad, 220))
+        && (!('propiedad_id' in data) || shortString(data.propiedad_id, 160))
+        && (!('origen' in data) || shortString(data.origen, 500))
+        && (!('pagina' in data) || shortString(data.pagina, 500));
+    }
+
+    match /settings/{documentId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /properties/{propertyId} {
+      allow read: if isAdmin() || resource.data.deleted == false;
+      allow create, update, delete: if isAdmin();
+
+      match /images/{imageId} {
+        allow read: if isAdmin()
+          || get(/databases/$(database)/documents/properties/$(propertyId)).data.deleted == false;
+        allow create, update, delete: if isAdmin();
+      }
+    }
+
+    match /crm/{eventId} {
+      allow create: if request.resource.data.keys().hasOnly(['type', 'data', 'createdAt'])
+        && shortString(request.resource.data.type, 50)
+        && validCrmData(request.resource.data.data);
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /backups/{backupId} {
+      allow read, create, update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
